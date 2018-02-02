@@ -66,30 +66,49 @@
         });
         //Google auth ends
         
-        var provider = new firebase.auth.GithubAuthProvider();
-        provider.addScope('repo');
-        provider.setCustomParameters({
-        'allow_signup': 'false'
-                    
-        
-        firebase.auth().signInWithPopup(provider).then(function(result) {
-          // This gives you a GitHub Access Token. You can use it to access the GitHub API.
-          var token = result.credential.accessToken;
-          // The signed-in user info.
-          var user = result.user;
-          // ...
-        }).catch(function(error) {
-          // Handle Errors here.
-          var errorCode = error.code;
-          var errorMessage = error.message;
-          // The email of the user's account used.
-          var email = error.email;
-          // The firebase.auth.AuthCredential type that was used.
-          var credential = error.credential;
-          // ...
+           let provider = new firebase.auth.GithubAuthProvider();
+        provider.setCustomParameters({  // optional
+          'allow_signup': 'true'
         });
-});
-
+        firebase.auth().getRedirectResult().then(function(result) {
+            // Om vi har gjort en redirect tidigare,
+            // så är result.user !== null
+            if( result.user ) {
+                console.log('Redirect result, success: we have a user.');
+                console.log('You are logged in as ' + firebase.auth().currentUser.displayName);
+                fetchFromDatabase();
+            } else {
+                console.log('Redirect result, user is null.');
+            }
+        })
+        .catch(function(error) {
+            // Inträffar om vi inte kan få information om en
+            // eventuell tidigare redirect
+            console.log('Redirect result, error: ' + error.message);
+        })
+        window.addEventListener('load', function() {
+            // Klicka på knappen för att logga in med redirect
+            document.getElementById('redirectButton').addEventListener('click', function(e) {
+                firebase.auth().signInWithRedirect(provider);
+            });
+            document.getElementById('popupButton').addEventListener('click', function(e) {
+                firebase.auth().signInWithPopup(provider).then(function(result) {
+                    var user = result.user;
+                    console.log('Popup result: logged in as ', user.displayName);
+                    fetchFromDatabase();
+                }).catch(function(error) {
+                    console.log('Popup result, error: ' + error.message);
+                });
+            });
+            document.getElementById('signoutButton').addEventListener('click', function(event) {
+                firebase.auth().signOut().then(function(result) {
+                    console.log('Signed out user');
+                })
+                .catch(function(error) {
+                    console.log('Signout failed');
+                })
+            })
+        }) 
 
     </script> 
     
