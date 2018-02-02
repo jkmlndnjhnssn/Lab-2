@@ -5,24 +5,27 @@
 	<meta charset="utf-8" />
 	<style>
 		body {
-			background-color: lime;
+			background-color: aqua;
 		}
 	</style>
+    
+    <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase.js"></script>
+    <script>
+    // Initialize Firebase
+    var config = {
+        apiKey: "AIzaSyBo6kNSMYGA8pGewKXR5Xb0mF-Ahz0YDGs",
+        authDomain: "authtest-5107d.firebaseapp.com",
+        databaseURL: "https://authtest-5107d.firebaseio.com",
+        projectId: "authtest-5107d",
+        storageBucket: "authtest-5107d.appspot.com",
+        messagingSenderId: "163478550545"
+    };
+    firebase.initializeApp(config);
+    </script>
 
-
-<script src="https://www.gstatic.com/firebasejs/4.9.1/firebase.js"></script>
-<script>
-  // Initialize Firebase
-  var config = {
-    apiKey: "AIzaSyBv11W6MmP2Tb4twpU7l8iK_zGVJQu0VFg",
-    authDomain: "fir-1-befd8.firebaseapp.com",
-    databaseURL: "https://fir-1-befd8.firebaseio.com",
-    projectId: "fir-1-befd8",
-    storageBucket: "fir-1-befd8.appspot.com",
-    messagingSenderId: "503520093961"
-  };
-  firebase.initializeApp(config);
-
+	<script>
+        
+        
 	const newRecipe = {
 		namn: 'tacos',
 		portioner: 1,
