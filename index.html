@@ -4,7 +4,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-   <script src="https://www.gstatic.com/firebasejs/4.9.1/firebase.js"></script>
+<script src="https://www.gstatic.com/firebasejs/4.9.1/firebase.js"></script>
 <script>
   // Initialize Firebase
   var config = {
@@ -21,23 +21,59 @@
     <style>
         
     </style>
+    
 </head>
+
+
 <body>
+
     <h1>Firebase labb 2</h1>
 
-<script>  
     
-    let provider = new firebase.auth.GoogleAuthProvider();
-    provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
-    firebase.auth().languageCode = 'pt';
-    // To apply the default browser preference instead of explicitly setting it.
-    // firebase.auth().useDeviceLanguage();
-    provider.setCustomParameters({
-        'login_hint': 'user@example.com'
-    });
+    
+    <script>  
+        //Google auth
+        let provider = new firebase.auth.GoogleAuthProvider();
+        provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
+        firebase.auth().languageCode = 'pt';
+        // To apply the default browser preference instead of explicitly setting it.
+        // firebase.auth().useDeviceLanguage();
+        provider.setCustomParameters({
+            'login_hint': 'user@example.com'
+        });
 
-    firebase.auth().signInWithPopup(provider).then(function(result) {
-          // This gives you a Google Access Token. You can use it to access the Google API.
+        firebase.auth().signInWithPopup(provider).then(function(result) {
+              // This gives you a Google Access Token. You can use it to access the Google API.
+              var token = result.credential.accessToken;
+              // The signed-in user info.
+              var user = result.user;
+              // ...
+            }).catch(function(error) {
+              // Handle Errors here.
+              var errorCode = error.code;
+              var errorMessage = error.message;
+              // The email of the user's account used.
+              var email = error.email;
+              // The firebase.auth.AuthCredential type that was used.
+              var credential = error.credential;
+              // ...
+            });
+
+        firebase.auth().signOut().then(function() {
+          // Sign-out successful.
+        }).catch(function(error) {
+          // An error happened.
+        });
+        //Google auth ends
+        
+        var provider = new firebase.auth.GithubAuthProvider();
+        provider.addScope('repo');
+        provider.setCustomParameters({
+        'allow_signup': 'false'
+                    
+        
+        firebase.auth().signInWithPopup(provider).then(function(result) {
+          // This gives you a GitHub Access Token. You can use it to access the GitHub API.
           var token = result.credential.accessToken;
           // The signed-in user info.
           var user = result.user;
@@ -52,14 +88,10 @@
           var credential = error.credential;
           // ...
         });
-    
-    firebase.auth().signOut().then(function() {
-      // Sign-out successful.
-    }).catch(function(error) {
-      // An error happened.
-    });
-    
-</script> 
+});
+
+
+    </script> 
     
 </body>
 </html>
