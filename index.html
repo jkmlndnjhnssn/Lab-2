@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="sv">
 <head>
-	<title>Firebase demo</title>
+	<title>Firebase Lab 2</title>
 	<meta charset="utf-8" />
 	<style>
 		body {
@@ -35,6 +35,10 @@
             margin: auto;
             text-align: center;
             font-size: 30px;
+        }
+        
+        button:disabled {
+            background-color: blueviolet;
         }
 	</style>
     
@@ -79,16 +83,31 @@
 	});
         
 	window.addEventListener('load', function() {
+        document.getElementById('signoutButton').disabled = true;
+        
+        
 		document.getElementById('gitBtn').addEventListener('click', function(e) {
-			let profile = document.getElementById('profile');
+			document.getElementById('googleBtn').disabled = true;
+            document.getElementById('signoutButton') = false;
+            document.getElementById('twitterBtn').disabled = true;
+            
+            let profile = document.getElementById('profile');
             let profilePic = document.getElementById('profilePic');
+            let profileDiv = document.getElementById('profileContainer');
+            let img = document.createElement('img');
+            img.setAttribute('id', 'profilePic');
+          
+            
             
             firebase.auth().signInWithPopup(provider).then(function(result) {
 				var user = result.additionalUserInfo;
 				console.log('Sign-in result: logged in as ', user.username);
 				profile.innerText = 'Signed in as: ' + user.username;
-                profilePic.src = user.photoURL;
+                img.src = user.photoURL;
+                profileDiv.appendChild(img);
+                
                 console.log(result);
+                
                 fetchFromDatabase();
 			}).catch(function(error) {
 				console.log('Sign-in result, error: ' + error.message);
@@ -97,16 +116,28 @@
 
 	
         document.getElementById('googleBtn').addEventListener('click', function(e) {
-          firebase.auth().signInWithPopup(providerGoogle).then(function(result) {
+            document.getElementById('twitterBtn').disabled = true;
+            document.getElementById('signoutButton') = false;
+            document.getElementById('gitBtn').disabled = true;
+            
+            let profileDiv = document.getElementById('profileContainer');
+            let img = document.createElement('img');
+            img.setAttribute('id', 'profilePic');
+          
+          
+            firebase.auth().signInWithPopup(providerGoogle).then(function(result) {
           // This gives you a Google Access Token. You can use it to access the Google API.
           var token = result.credential.accessToken;
           // The signed-in user info.
           var user = result.user;
           console.log('Sign-in result: logged in as ', user.displayName);
           profile.innerText = 'Signed in as: ' + user.displayName;
-          profilePic.src = user.photoURL;
+            img.src = user.photoURL;
+            profileDiv.appendChild(img);
+              
           console.log(result);      
-          fetchFromDatabase();
+          
+            fetchFromDatabase();
         }).catch(function(error) {
 				console.log('Sign-in result, error: ' + error.message);
 			});    
@@ -114,8 +145,18 @@
         
         document.getElementById('twitterBtn').addEventListener('click', function(e) {
           
+          document.getElementById('googleBtn').disabled = true;
+          document.getElementById('signoutButton').disabled = false;
+          document.getElementById('gitBtn').disabled = true;
+          document.getElementById('twitterBtn').disabled = true;
+            
           let profile = document.getElementById('profile');
           let profilePic = document.getElementById('profilePic');
+            
+          let profileDiv = document.getElementById('profileContainer');
+          let img = document.createElement('img');
+          img.setAttribute('id', 'profilePic');
+          
 
           firebase.auth().signInWithPopup(providerTwitter).then(function(result) {
               // This gives you a the Twitter OAuth 1.0 Access Token and Secret.
@@ -126,7 +167,8 @@
               var user = result.user;
               console.log('Sign-in result: logged in as ', user.displayName);
               profile.innerText = 'Signed in as: ' + user.displayName;
-              profilePic.src = user.photoURL;
+              img.src = user.photoURL;
+              profileDiv.appendChild(img);
               
               fetchFromDatabase();
             }).catch(function(error) {
@@ -142,12 +184,17 @@
         })
         
         document.getElementById('signoutButton').addEventListener('click', function(event) {
+            let profilePic = document.getElementById('profilePic');
 			firebase.auth().signOut().then(function(result) {
                 let profile = document.getElementById('profile');
-                let profilePic = document.getElementById('profilePic');
-
                 profile.innerText = 'Please sign in'
-                profilePic.scr ='';
+                profilePic.remove();
+                
+                document.getElementById('googleBtn').disabled = false;
+                document.getElementById('signoutButton').disabled = true;
+                document.getElementById('gitBtn').disabled = false;
+                document.getElementById('twitterBtn').disabled = false;
+                
 				console.log('Signed out user');
 			})
 			.catch(function(error) {
@@ -162,7 +209,6 @@
 	<h1>Firebase Lab 2 </h1>
     <div id='profileContainer'>
         <p id='profile'>Please sign in</p>
-        <img height="50px" with="50px" id='profilePic'> 
     </div>
     <div id='btns'>
 	<button id="gitBtn">Sign in with GitHub</button>
