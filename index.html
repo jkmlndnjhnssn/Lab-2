@@ -38,7 +38,14 @@
         }
         
         button:disabled {
-            background-color: blueviolet;
+            background-color: rgba(169,183,158, 0.2);
+            color: rgba(157,29,54, 0.2)
+        }
+        
+        #profilePic {
+            width: 60px;
+            height: 60px;
+            border-radius: 30px;
         }
 	</style>
     
@@ -195,7 +202,7 @@
                 document.getElementsByClassName('googleBtnClass')[0].disabled = false;
                 document.getElementsByClassName('signoutButtonClass')[0].disabled = true;
                 document.getElementsByClassName('gitBtnClass')[0].disabled = false;
-                document.getElementByClass('twitterBtnClass')[0].disabled = false;
+                document.getElementsByClassName('twitterBtnClass')[0].disabled = false;
                 
 				console.log('Signed out user');
 			})
