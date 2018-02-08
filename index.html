@@ -88,8 +88,9 @@
         
 		document.getElementById('gitBtn').addEventListener('click', function(e) {
 			document.getElementById('googleBtn').disabled = true;
-            document.getElementById('signoutButton') = false;
+            document.getElementById('signoutButton').disabled = false;
             document.getElementById('twitterBtn').disabled = true;
+            document.getElementById('gitBtn').disabled = true
             
             let profile = document.getElementById('profile');
             let profilePic = document.getElementById('profilePic');
@@ -117,8 +118,9 @@
 	
         document.getElementById('googleBtn').addEventListener('click', function(e) {
             document.getElementById('twitterBtn').disabled = true;
-            document.getElementById('signoutButton') = false;
+            document.getElementById('signoutButton').disabled = false;
             document.getElementById('gitBtn').disabled = true;
+            document.getElementById('googleBtn').disabled = true
             
             let profileDiv = document.getElementById('profileContainer');
             let img = document.createElement('img');
