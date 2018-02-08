@@ -87,10 +87,10 @@
         
         
 		document.getElementById('gitBtn').addEventListener('click', function(e) {
-			document.getElementById('googleBtn').disabled = true;
-            document.getElementById('signoutButton').disabled = false;
-            document.getElementById('twitterBtn').disabled = true;
-            document.getElementById('gitBtn').disabled = true
+			document.getElementsByClassName('googleBtnClass')[0].disabled = true;
+            document.getElementsByClassName('signoutButtonClass')[0].disabled = false;
+            document.getElementsByClassName('twitterBtnClass')[0].disabled = true;
+            document.getElementsByClassName('gitBtnClass')[0].disabled = true
             
             let profile = document.getElementById('profile');
             let profilePic = document.getElementById('profilePic');
@@ -117,10 +117,10 @@
 
 	
         document.getElementById('googleBtn').addEventListener('click', function(e) {
-            document.getElementById('twitterBtn').disabled = true;
-            document.getElementById('signoutButton').disabled = false;
-            document.getElementById('gitBtn').disabled = true;
-            document.getElementById('googleBtn').disabled = true
+            document.getElementsByClassName('twitterBtnClass')[0].disabled = true;
+            document.getElementsByClassName('signoutButtonClass')[0].disabled = false;
+            document.getElementsByClassName('gitBtnClass')[0].disabled = true;
+            document.getElementsByClassName('googleBtnClass')[0].disabled = true
             
             let profileDiv = document.getElementById('profileContainer');
             let img = document.createElement('img');
@@ -147,10 +147,10 @@
         
         document.getElementById('twitterBtn').addEventListener('click', function(e) {
           
-          document.getElementById('googleBtn').disabled = true;
-          document.getElementById('signoutButton').disabled = false;
-          document.getElementById('gitBtn').disabled = true;
-          document.getElementById('twitterBtn').disabled = true;
+          document.getElementsByClassName('googleBtnClass')[0].disabled = true;
+          document.getElementsByClassName('signoutButtonClass')[0].disabled = false;
+          document.getElementsByClassName('gitBtnClass')[0].disabled = true;
+          document.getElementsByClassName('twitterBtnClass')[0].disabled = true;
             
           let profile = document.getElementById('profile');
           let profilePic = document.getElementById('profilePic');
@@ -192,10 +192,10 @@
                 profile.innerText = 'Please sign in'
                 profilePic.remove();
                 
-                document.getElementById('googleBtn').disabled = false;
-                document.getElementById('signoutButton').disabled = true;
-                document.getElementById('gitBtn').disabled = false;
-                document.getElementById('twitterBtn').disabled = false;
+                document.getElementsByClassName('googleBtnClass')[0].disabled = false;
+                document.getElementsByClassName('signoutButtonClass')[0].disabled = true;
+                document.getElementsByClassName('gitBtnClass')[0].disabled = false;
+                document.getElementByClass('twitterBtnClass')[0].disabled = false;
                 
 				console.log('Signed out user');
 			})
@@ -213,10 +213,10 @@
         <p id='profile'>Please sign in</p>
     </div>
     <div id='btns'>
-	<button id="gitBtn">Sign in with GitHub</button>
-    <button id='googleBtn'>Sign in with google</button>
-    <button id='twitterBtn'>Sign in with Twitter</button>
-    <button id="signoutButton">Sign out user</button>
+	<button id="gitBtn" class='gitBtnClass'>Sign in with GitHub</button>
+    <button id='googleBtn' class='googleBtnClass'>Sign in with google</button>
+    <button id='twitterBtn' class='twitterBtnClass'>Sign in with Twitter</button>
+    <button id="signoutButton" class='signoutButtonClass'>Sign out user</button>
     </div>
 </body>
 </html>
