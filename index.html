@@ -5,118 +5,170 @@
 	<meta charset="utf-8" />
 	<style>
 		body {
-			background-color: darkgrey;
+			background-color: #E8DDBD;
+            font-family: helvetica, sans-serif;
+            color: #C25848
 		}
+        button {
+            width: 200px;
+            height: 60px;
+            border: none;
+            border-radius: 10px;
+            background-color: #A9B79E;
+            font-size: 20px;
+            font-family: helvetica, sans-serif;
+            margin: auto;
+            margin-top: 10px;
+            color: #9D1D36;
+        }
+        #btns {
+            width: 200px;
+            margin: auto;
+        }
+        h1 {
+            text-align: center;
+        }
+        
+        #profileContainer {
+            width: 400px;
+            height: auto;
+            margin: auto;
+            text-align: center;
+            font-size: 30px;
+        }
 	</style>
     
    
+
 <script src="https://www.gstatic.com/firebasejs/4.9.1/firebase.js"></script>
 <script>
   // Initialize Firebase
   var config = {
-    apiKey: "AIzaSyDmEuWtDIXV3tdJFyhk7dcMtSv3pEdAUz0",
-    authDomain: "fir-testing1-c9681.firebaseapp.com",
-    databaseURL: "https://fir-testing1-c9681.firebaseio.com",
-    projectId: "fir-testing1-c9681",
-    storageBucket: "",
-    messagingSenderId: "470377897728"
+    apiKey: "AIzaSyBv11W6MmP2Tb4twpU7l8iK_zGVJQu0VFg",
+    authDomain: "fir-1-befd8.firebaseapp.com",
+    databaseURL: "https://fir-1-befd8.firebaseio.com",
+    projectId: "fir-1-befd8",
+    storageBucket: "fir-1-befd8.appspot.com",
+    messagingSenderId: "503520093961"
   };
   firebase.initializeApp(config);
 </script>
 
-	<script>
-        
-        
-	const newRecipe = {
-		namn: 'tacos',
-		portioner: 1,
-		ingrediens1: 'salladsmix',
-		ingrediens2: {
-			"mängd": '3 st',
-			"ämne": 'tacoskal'
-		},
-		ingrediens3: 'köttfärs'
-	}
-	const db = firebase.database();
-	// Lägga till objekt till db, används inte för tillfället
-	if( false ) {
-		console.log('Adding to database...');
-		db.ref('recept1/').push({ 'ämne': 'sylt', 'mängd': '1 msk' });
-		db.ref('/recept5').set(newRecipe);
-		console.log('Finished adding to database.');
-		// push - lägga till nytt objekt
-		// set - ändra befintliga
-	}
-	let provider = new firebase.auth.GithubAuthProvider();
+	<script>        
+    // Twitter Auth
+        let providerTwitter = new firebase.auth.TwitterAuthProvider();
+        firebase.auth().languageCode = 'en';
+        providerTwitter.setCustomParameters({
+        'lang': 'en'
+        });
+    
+    // Google Auth
+    let providerGoogle = new firebase.auth.GoogleAuthProvider();  
+    providerGoogle.addScope('https://www.googleapis.com/auth/contacts.readonly');
+    firebase.auth().languageCode = 'en';
+        // To apply the default browser preference instead of explicitly setting it.
+        // firebase.auth().useDeviceLanguage();
+    providerGoogle.setCustomParameters({
+        'login_hint': 'user@example.com'
+    });
+	
+    //Github auth
+    let provider = new firebase.auth.GithubAuthProvider();
 	provider.setCustomParameters({  // optional
 	  'allow_signup': 'true'
 	});
-	firebase.auth().getRedirectResult().then(function(result) {
-		// Om vi har gjort en redirect tidigare,
-		// så är result.user !== null
-		if( result.user ) {
-			console.log('Redirect result, success: we have a user.');
-			console.log('You are logged in as ' + firebase.auth().currentUser.displayName);
-			fetchFromDatabase();
-		} else {
-			console.log('Redirect result, user is null.');
-		}
-	})
-	.catch(function(error) {
-		// Inträffar om vi inte kan få information om en
-		// eventuell tidigare redirect
-		console.log('Redirect result, error: ' + error.message);
-	})
+        
 	window.addEventListener('load', function() {
-		// Klicka på knappen för att logga in med redirect
-		document.getElementById('redirectButton').addEventListener('click', function(e) {
-			firebase.auth().signInWithRedirect(provider);
-		});
-		document.getElementById('popupButton').addEventListener('click', function(e) {
-			firebase.auth().signInWithPopup(provider).then(function(result) {
-				var user = result.user;
-				console.log('Popup result: logged in as ', user.displayName);
-				fetchFromDatabase();
+		document.getElementById('gitBtn').addEventListener('click', function(e) {
+			let profile = document.getElementById('profile');
+            let profilePic = document.getElementById('profilePic');
+            
+            firebase.auth().signInWithPopup(provider).then(function(result) {
+				var user = result.additionalUserInfo;
+				console.log('Sign-in result: logged in as ', user.username);
+				profile.innerText = 'Signed in as: ' + user.username;
+                profilePic.src = user.photoURL;
+                console.log(result);
+                fetchFromDatabase();
 			}).catch(function(error) {
-				console.log('Popup result, error: ' + error.message);
+				console.log('Sign-in result, error: ' + error.message);
 			});
 		});
-		document.getElementById('signoutButton').addEventListener('click', function(event) {
+
+	
+        document.getElementById('googleBtn').addEventListener('click', function(e) {
+          firebase.auth().signInWithPopup(providerGoogle).then(function(result) {
+          // This gives you a Google Access Token. You can use it to access the Google API.
+          var token = result.credential.accessToken;
+          // The signed-in user info.
+          var user = result.user;
+          console.log('Sign-in result: logged in as ', user.displayName);
+          profile.innerText = 'Signed in as: ' + user.displayName;
+          profilePic.src = user.photoURL;
+          console.log(result);      
+          fetchFromDatabase();
+        }).catch(function(error) {
+				console.log('Sign-in result, error: ' + error.message);
+			});    
+        })
+        
+        document.getElementById('twitterBtn').addEventListener('click', function(e) {
+          
+          let profile = document.getElementById('profile');
+          let profilePic = document.getElementById('profilePic');
+
+          firebase.auth().signInWithPopup(providerTwitter).then(function(result) {
+              // This gives you a the Twitter OAuth 1.0 Access Token and Secret.
+              // You can use these server side with your app's credentials to access the Twitter API.
+              var token = result.credential.accessToken;
+              var secret = result.credential.secret;
+              // The signed-in user info.
+              var user = result.user;
+              console.log('Sign-in result: logged in as ', user.displayName);
+              profile.innerText = 'Signed in as: ' + user.displayName;
+              profilePic.src = user.photoURL;
+              
+              fetchFromDatabase();
+            }).catch(function(error) {
+              // Handle Errors here.
+              var errorCode = error.code;
+              var errorMessage = error.message;
+              // The email of the user's account used.
+              var email = error.email;
+              // The firebase.auth.AuthCredential type that was used.
+              var credential = error.credential;
+              console.log('Sign-in result, error: ' + error.message);
+            });  
+        })
+        
+        document.getElementById('signoutButton').addEventListener('click', function(event) {
 			firebase.auth().signOut().then(function(result) {
+                let profile = document.getElementById('profile');
+                let profilePic = document.getElementById('profilePic');
+
+                profile.innerText = 'Please sign in'
+                profilePic.scr ='';
 				console.log('Signed out user');
 			})
 			.catch(function(error) {
-				console.log('Signout failed');
+				console.log('Sign-out failed');
 			})
 		})
-	})  // window.load
-	// Gör DOM-manipulation, måste anropas inifrån webbläsarens load-händelse
-	function fetchFromDatabase() {
-		db.ref('/').on('value', function(snapshot) {
-			console.log('On value: hämtar hela databasen.');
-			let data = snapshot.val();
-			console.log(data);
-			let divRecept = document.getElementById('recept');
-			for( let recipe in data ) {
-				let r = data[recipe];
-				console.log(`Receptet ${r.namn} innehåller: `, data[recipe]);
-				const newDiv = document.createElement('div');
-				let str = JSON.stringify(r);
-				newDiv.innerHTML = `<strong>${r.namn}</strong><br/>
-				${str}</br/>`;
-				divRecept.appendChild(newDiv);
-			}
-		})
-	}
+    
+    })  // window.load slutar
 	</script>
 </head>
 <body>
-	<h1>Firebase genomgång 1.0 </h1>
-	<div id="recept">
-
-	</div>
-	<button id="redirectButton">Redirect authentication</button>
-	<button id="popupButton">Popup authentication</button>
-	<button id="signoutButton">Sign out user</button>
+	<h1>Firebase Lab 2 </h1>
+    <div id='profileContainer'>
+        <p id='profile'>Please sign in</p>
+        <img height="50px" with="50px" id='profilePic'> 
+    </div>
+    <div id='btns'>
+	<button id="gitBtn">Sign in with GitHub</button>
+    <button id='googleBtn'>Sign in with google</button>
+    <button id='twitterBtn'>Sign in with Twitter</button>
+    <button id="signoutButton">Sign out user</button>
+    </div>
 </body>
 </html>
