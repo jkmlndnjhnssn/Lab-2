@@ -94,10 +94,6 @@
         
         
 		document.getElementById('gitBtn').addEventListener('click', function(e) {
-			document.getElementsByClassName('googleBtnClass')[0].disabled = true;
-            document.getElementsByClassName('signoutButtonClass')[0].disabled = false;
-            document.getElementsByClassName('twitterBtnClass')[0].disabled = true;
-            document.getElementsByClassName('gitBtnClass')[0].disabled = true
             
             let profile = document.getElementById('profile');
             let profilePic = document.getElementById('profilePic');
@@ -114,9 +110,14 @@
                 img.src = user.profile.avatar_url;
                 profileDiv.appendChild(img);
                 
+                document.getElementsByClassName('googleBtnClass')[0].disabled = true;
+                document.getElementsByClassName('signoutButtonClass')[0].disabled = false;
+                document.getElementsByClassName('twitterBtnClass')[0].disabled = true;
+                document.getElementsByClassName('gitBtnClass')[0].disabled = true
+                
                 console.log(result);
                 
-                fetchFromDatabase();
+                
 			}).catch(function(error) {
 				console.log('Sign-in result, error: ' + error.message);
                 
@@ -134,15 +135,10 @@
 
 	
         document.getElementById('googleBtn').addEventListener('click', function(e) {
-            document.getElementsByClassName('twitterBtnClass')[0].disabled = true;
-            document.getElementsByClassName('signoutButtonClass')[0].disabled = false;
-            document.getElementsByClassName('gitBtnClass')[0].disabled = true;
-            document.getElementsByClassName('googleBtnClass')[0].disabled = true
             
             let profileDiv = document.getElementById('profileContainer');
             let img = document.createElement('img');
             img.setAttribute('id', 'profilePic');
-          
           
             firebase.auth().signInWithPopup(providerGoogle).then(function(result) {
           // This gives you a Google Access Token. You can use it to access the Google API.
@@ -153,20 +149,25 @@
           profile.innerText = 'Signed in as: ' + user.displayName;
             img.src = user.photoURL;
             profileDiv.appendChild(img);
+                
+            document.getElementsByClassName('twitterBtnClass')[0].disabled = true;
+            document.getElementsByClassName('signoutButtonClass')[0].disabled = false;
+            document.getElementsByClassName('gitBtnClass')[0].disabled = true;
+            document.getElementsByClassName('googleBtnClass')[0].disabled = true
               
           console.log(result);      
           
-            fetchFromDatabase();
+            
         }).catch(function(error) {
 				console.log('Sign-in result, error: ' + error.message);
                 
                 if (error) {
-                    document.getElementsByClassName('twitterBtnClass')[0].disabled = false;
-                    document.getElementsByClassName('signoutButtonClass')[0].disabled = true;
+                    document.getElementsByClassName('twitterBtnClass')[0].disabled = true;
+                    document.getElementsByClassName('signoutButtonClass')[0].disabled = false;
                     
-                    document.getElementsByClassName('gitBtnClass')[0].disabled = false;
+                    document.getElementsByClassName('gitBtnClass')[0].disabled = true;
                     
-                    document.getElementsByClassName('googleBtnClass')[0].disabled = false;
+                    document.getElementsByClassName('googleBtnClass')[0].disabled = true;
                 }
                 
                 
@@ -175,10 +176,6 @@
         
         document.getElementById('twitterBtn').addEventListener('click', function(e) {
           
-          document.getElementsByClassName('googleBtnClass')[0].disabled = true;
-          document.getElementsByClassName('signoutButtonClass')[0].disabled = false;
-          document.getElementsByClassName('gitBtnClass')[0].disabled = true;
-          document.getElementsByClassName('twitterBtnClass')[0].disabled = true;
             
           let profile = document.getElementById('profile');
           let profilePic = document.getElementById('profilePic');
@@ -200,7 +197,13 @@
               img.src = user.photoURL;
               profileDiv.appendChild(img);
               
-              fetchFromDatabase();
+              document.getElementsByClassName('googleBtnClass')[0].disabled = true;
+              document.getElementsByClassName('signoutButtonClass')[0].disabled = false;
+              document.getElementsByClassName('gitBtnClass')[0].disabled = true;
+              document.getElementsByClassName('twitterBtnClass')[0].disabled = true;
+              
+              
+              
             }).catch(function(error) {
               // Handle Errors here.
               var errorCode = error.code;
