@@ -162,12 +162,12 @@
 				console.log('Sign-in result, error: ' + error.message);
                 
                 if (error) {
-                    document.getElementsByClassName('twitterBtnClass')[0].disabled = true;
-                    document.getElementsByClassName('signoutButtonClass')[0].disabled = false;
+                    document.getElementsByClassName('twitterBtnClass')[0].disabled = false;
+                    document.getElementsByClassName('signoutButtonClass')[0].disabled = true;
                     
-                    document.getElementsByClassName('gitBtnClass')[0].disabled = true;
+                    document.getElementsByClassName('gitBtnClass')[0].disabled = false;
                     
-                    document.getElementsByClassName('googleBtnClass')[0].disabled = true;
+                    document.getElementsByClassName('googleBtnClass')[0].disabled = false;
                 }
                 
                 
