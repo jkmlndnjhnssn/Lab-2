@@ -119,6 +119,16 @@
                 fetchFromDatabase();
 			}).catch(function(error) {
 				console.log('Sign-in result, error: ' + error.message);
+                
+                if (error) {
+                    document.getElementsByClassName('twitterBtnClass')[0].disabled = false;
+                    document.getElementsByClassName('signoutButtonClass')[0].disabled = true;
+                    
+                    document.getElementsByClassName('gitBtnClass')[0].disabled = false;
+                    
+                    document.getElementsByClassName('googleBtnClass')[0].disabled = false;
+                }
+                
 			});
 		});
 
@@ -149,6 +159,17 @@
             fetchFromDatabase();
         }).catch(function(error) {
 				console.log('Sign-in result, error: ' + error.message);
+                
+                if (error) {
+                    document.getElementsByClassName('twitterBtnClass')[0].disabled = false;
+                    document.getElementsByClassName('signoutButtonClass')[0].disabled = true;
+                    
+                    document.getElementsByClassName('gitBtnClass')[0].disabled = false;
+                    
+                    document.getElementsByClassName('googleBtnClass')[0].disabled = false;
+                }
+                
+                
 			});    
         })
         
@@ -189,6 +210,18 @@
               // The firebase.auth.AuthCredential type that was used.
               var credential = error.credential;
               console.log('Sign-in result, error: ' + error.message);
+              
+              
+              if (error) {
+                    document.getElementsByClassName('twitterBtnClass')[0].disabled = false;
+                    document.getElementsByClassName('signoutButtonClass')[0].disabled = true;
+                    
+                    document.getElementsByClassName('gitBtnClass')[0].disabled = false;
+                    
+                    document.getElementsByClassName('googleBtnClass')[0].disabled = false;
+                }
+              
+              
             });  
         })
         
