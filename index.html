@@ -111,7 +111,7 @@
 				var user = result.additionalUserInfo;
 				console.log('Sign-in result: logged in as ', user.username);
 				profile.innerText = 'Signed in as: ' + user.username;
-                img.src = user.photoURL;
+                img.src = user.profile.avatar_url;
                 profileDiv.appendChild(img);
                 
                 console.log(result);
