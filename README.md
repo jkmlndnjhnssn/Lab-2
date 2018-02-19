@@ -1,4 +1,4 @@
 # blablafirebase
 
 
-https://jkmlndnjhnssn.github.io/blablafirebase/
+https://jkmlndnjhnssn.github.io/Lab-2/ 
